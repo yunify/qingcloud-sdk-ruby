@@ -1,0 +1,157 @@
+{{define "SubServiceInitParams"}}
+  {{- $customizedType := . -}}
+  {{- $firstPropertyID := $customizedType | firstPropertyIDInCustomizedType -}}
+  {{- range $_, $property := $customizedType.Properties -}}
+    {{- if ne $property.ID $firstPropertyID -}},{{- end -}}
+    {{$property.ID | snakeCase}}
+  {{- end -}}
+{{end}}
+
+{{define "CustomizedTypeRequestParams"}}
+  {{- $customizedType := . -}}
+  {{- $firstPropertyID := $customizedType | firstPropertyIDInCustomizedType -}}
+  {{- range $_, $property := $customizedType.Properties -}}
+    {{- if ne $property.ID $firstPropertyID -}},{{- end -}}
+    {{- if eq $property.Type "string" -}}
+      {{$property.ID | snakeCase}}: ''
+    {{- else if eq $property.Type "timestamp" -}}
+      {{$property.ID | snakeCase}}: ''
+    {{- else if eq $property.Type "array" -}}
+      {{$property.ID | snakeCase}}: []
+    {{- else if eq $property.Type "object" -}}
+      {{$property.ID | snakeCase}}: []
+    {{- else if eq $property.Type "map" -}}
+      {{$property.ID | snakeCase}}: []
+    {{- else if eq $property.Type "any" -}}
+      {{$property.ID | snakeCase}}: []
+    {{- else -}}
+      {{$property.ID | snakeCase}}: nil
+    {{- end -}}
+  {{- end -}}
+{{end}}
+
+{{define "OperationInitParams"}}
+  {{- $operation := . -}}
+
+  {{- $hasParams := gt (len $operation.Request.Params.Properties) 0 -}}
+  {{- $hasHeaders := gt (len $operation.Request.Headers.Properties) 0 -}}
+  {{- $hasElements := gt (len $operation.Request.Elements.Properties) 0 -}}
+
+  {{- template "CustomizedTypeRequestParams" $operation.Request.Params -}}
+  {{- if and $hasParams $hasHeaders -}},{{end}}
+  {{- template "CustomizedTypeRequestParams" $operation.Request.Headers -}}
+  {{- if and (or $hasParams $hasHeaders) $hasElements -}},{{end}}
+  {{- template "CustomizedTypeRequestParams" $operation.Request.Elements -}}
+{{end}}
+
+{{define "RenderOperation"}}
+  {{$operation := .}}
+
+  {{if $operation.Description -}}
+    # {{$operation.ID | snakeCase}}: {{$operation.Description}}
+  {{- end}}
+  {{if $operation.DocumentationURL -}}
+    # Documentation URL: {{$operation.DocumentationURL}}
+  {{- end}}
+  def {{$operation.ID | snakeCase}}({{template "OperationInitParams" $operation}})
+    input   = {
+      config:         config,
+      properties:     properties,
+      api_name:       '{{$operation.Name}}',
+      request_method: '{{$operation.Request.Method}}',
+      request_params: {
+        {{range $_, $property := $operation.Request.Params.Properties -}}
+          '{{$property.Name}}'=> {{$property.ID | snakeCase}},
+          {{- if $property.Enum -}}
+            # {{$property.ID | snakeCase}}'s available values: {{$property.Enum | commaConnected}}
+          {{- end}}
+        {{end -}}
+      }
+    }
+
+    {{$operation.ID | snakeCase}}_input_validate input
+
+    request = Request.new input
+    request.send
+  end
+{{end}}
+
+{{define "RenderCustomizedTypeValidation"}}
+  {{$prefix := index . 0}}
+  {{$customizedType := index . 1}}
+  {{$customizedTypes := index . 2}}
+
+  {{range $_, $property := $customizedType.Properties}}
+    {{if eq $property.Type "object"}}
+      unless {{$prefix}}['{{$property.ID}}'].nil?
+        {{$nextPrefix := printf "%s[\"%s\"]" $prefix $property.ID}}
+        {{$nextCustomizedType := index $customizedTypes $property.ExtraType}}
+        {{$x := passThrough $nextPrefix $nextCustomizedType $customizedTypes}}
+        {{template "RenderCustomizedTypeValidation" $x}}
+      end
+      {{if $property.IsRequired }}
+        if {{$prefix}}['{{$property.ID}}'].nil?
+          raise ParameterRequiredError.new("{{$property.ID}}", '{{$customizedType.ID}}')
+        end
+      {{end}}
+    {{else if eq $property.Type "array"}}
+      {{if $property.IsRequired}}
+        unless !{{$prefix}}['{{$property.ID}}'].nil? && !{{$prefix}}['{{$property.ID}}'].to_s.empty?
+          raise ParameterRequiredError.new('{{$property.ID}}', '{{$customizedType.ID}}')
+        end
+      {{end}}
+      {{$isNotString := ne $property.ExtraType "string"}}
+      {{$isNotInteger := ne $property.ExtraType "integer"}}
+      {{$isNotTimestamp := ne $property.ExtraType "timestamp"}}
+      {{if and $isNotString $isNotInteger $isNotTimestamp}}
+        {{$prefix}}['{{$property.ID}}'].map { |x|
+          {{$nextCustomizedType := index $customizedTypes $property.ExtraType}}
+          {{$x := passThrough "x" $nextCustomizedType $customizedTypes}}
+          {{template "RenderCustomizedTypeValidation" $x}}
+        }
+      {{end}}
+    {{else}}
+      {{$isContentLength := eq $property.ID "Content-Length"}}
+      {{if not $isContentLength}}
+        {{if $property.IsRequired}}
+          unless !{{$prefix}}['{{$property.ID}}'].nil? && !{{$prefix}}['{{$property.ID}}'].to_s.empty?
+            raise ParameterRequiredError.new('{{$property.ID}}', '{{$customizedType.ID}}')
+          end
+        {{end}}
+        {{if gt ($property.Enum | len) 0}}
+          if {{$prefix}}['{{$property.ID}}'] && !{{$prefix}}['{{$property.ID}}'].to_s.empty?
+            {{$property.ID | snakeCase}}_valid_values = [{{$property.Enum | commaConnectedWithQuote}}]
+            unless {{$property.ID | snakeCase}}_valid_values.include? {{$prefix}}['{{$property.ID}}'].to_s
+              raise ParameterValueNotAllowedError.new(
+                '{{$property.ID}}',
+                {{$prefix}}['{{$property.ID}}'],
+                {{$property.ID | snakeCase}}_valid_values
+              )
+            end
+          end
+        {{end}}
+      {{end}}
+    {{end}}
+  {{end}}
+{{end}}
+
+{{define "RenderInputValidation"}}
+  {{$operation := index . 0}}
+  {{$request := $operation.Request}}
+  {{$customizedTypes := index . 1}}
+
+  private
+
+  def {{$operation.ID | snakeCase}}_input_validate(input)
+    input.deep_stringify_keys!
+
+    {{$x := passThrough "input['request_params']" $request.Params $customizedTypes}}
+    {{template "RenderCustomizedTypeValidation" $x}}
+    {{$x := passThrough "input['request_headers']" $request.Headers $customizedTypes}}
+    {{template "RenderCustomizedTypeValidation" $x}}
+    {{$x := passThrough "input['request_elements']" $request.Elements $customizedTypes}}
+    {{template "RenderCustomizedTypeValidation" $x}}
+  end
+
+  public
+{{end}}
