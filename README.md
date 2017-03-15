@@ -1,11 +1,9 @@
 # QingCloud::SDK
 
-<span style="display: inline-block">
 [![Build Status](https://travis-ci.org/yunify/qingcloud-sdk-ruby.svg?branch=master)](https://travis-ci.org/yunify/qingcloud-sdk-ruby)
 [![Gem Version](https://badge.fury.io/rb/qingcloud-sdk.svg)](http://badge.fury.io/rb/qingcloud-sdk)
 [![API Reference](http://img.shields.io/badge/api-reference-green.svg)](https://docs.qingcloud.com/)
 [![License](http://img.shields.io/badge/license-apache%20v2-blue.svg)](https://github.com/yunify/qingcloud-sdk-ruby/blob/master/LICENSE)
-</span>
 
 The official QingCloud SDK for Ruby programming language.
 
