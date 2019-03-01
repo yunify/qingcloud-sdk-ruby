@@ -24,9 +24,6 @@ module QingCloud
 
     # {{$service.Name | camelCase}} provides {{$service.Name}} Service API (API Version {{$service.APIVersion}})
     class {{$service.Name | camelCase}}Service
-      {{- if .IsVersioningEnabled -}}
-        _{{$service.APIVersion | snakeCase}}
-      {{- end}}
       attr_accessor :config, :properties
 
       def initialize(config {{range $id, $property := $service.Properties.Properties}}, {{$property.Name}}{{end}})
@@ -40,7 +37,6 @@ module QingCloud
 
       {{range $_, $operation := $service.Operations}}
         {{template "RenderOperation" $operation}}
-        {{template "RenderInputValidation" passThrough $operation $customizedTypes}}
       {{end}}
 
       {{range $subServiceID, $subService := $subServices}}
@@ -52,6 +48,11 @@ module QingCloud
           }
           {{camelCase $subService.ID}}Service.new(self.config, self.properties.merge(properties))
         end
+      {{end}}
+
+      private
+      {{range $_, $operation := $service.Operations}}
+        {{template "RenderInputValidation" passThrough $operation $customizedTypes}}
       {{end}}
     end
   end
