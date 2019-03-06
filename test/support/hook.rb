@@ -14,6 +14,28 @@
 #  | limitations under the License.
 #  +-------------------------------------------------------------------------
 
-Before {
-  load_test_config; load_config; init_qingcloud_service
-}
+Before do 
+  load_test_config
+  load_config
+  init_qingcloud_service
+end
+
+Before("@instance") do
+  @instance_service = @qingcloud_service.instance @test_config[:zone]
+  @job_service = @qingcloud_service.job @test_config[:zone]
+end
+
+Before("@image") do  
+  @image_service = @qingcloud_service.image @test_config[:zone]
+  @job_service = @qingcloud_service.job @test_config[:zone]
+  @instance_service = @qingcloud_service.instance @test_config[:zone]
+end
+
+Before("@vxnet") do  
+  @vxnet_service = @qingcloud_service.vxnet @test_config[:zone]
+  @job_service = @qingcloud_service.job @test_config[:zone]
+  @instance_service = @qingcloud_service.instance @test_config[:zone]
+  @router_service = @qingcloud_service.router @test_config[:zone]
+end
+
+
