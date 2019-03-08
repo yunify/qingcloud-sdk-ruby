@@ -36,57 +36,57 @@ Feature: the Vxnet service
       Then modify vxnet attributes should be successfull 
       And modify vxnet attributes should change the vxnet attributes 
 
-    # CreateRouters 创建一台或多台路由器
-    Scenario: need to create routers 
-      When create routers 
-      Then create routers should get a job ID 
-      Then create routers will be finished
+  # CreateRouters 创建一台或多台路由器
+  Scenario: need to create routers 
+    When create routers 
+    Then create routers should get a job ID 
+    Then create routers will be finished
 
-    # JoinRouter 将一个受管私有网络连接到一台路由器
-    Scenario: need to join router 
-      When join router 
-      Then join router should get a job ID 
-      Then join router will be finished
+  # JoinRouter 将一个受管私有网络连接到一台路由器
+  Scenario: need to join router 
+    When join router 
+    Then join router should get a job ID 
+    Then join router will be finished
 
-    # JoinVxnet 将主机加入到私有网络
-    Scenario: need to join vxnet 
-      When join vxnet 
-      Then join vxnet should get a job ID
-      Then join vxnet will be finished
+  # JoinVxnet 将主机加入到私有网络
+  Scenario: need to join vxnet 
+    When join vxnet 
+    Then join vxnet should get a job ID
+    Then join vxnet will be finished
 
-    # DescribeVxnetInstances 
-    Scenario: want to know all of the describe vxnet instances 
-      When describe vxnet instances 
-      Then describe vxnet instances should be successfull 
-      And describe vxnet instances should have the instance I created just before
+  # DescribeVxnetInstances 
+  Scenario: want to know all of the describe vxnet instances 
+    When describe vxnet instances 
+    Then describe vxnet instances should be successfull 
+    And describe vxnet instances should have the instance I created just before
 
-    # LeaveVxnet 将主机从私有网络中断开
-    Scenario: need to leave vxnet
-      When leave vxnet 
-      Then leave vxnet should get a job ID
-      Then leave vxnet will be finished 
+  # LeaveVxnet 将主机从私有网络中断开
+  Scenario: need to leave vxnet
+    When leave vxnet 
+    Then leave vxnet should get a job ID
+    Then leave vxnet will be finished 
 
-    # LeaveRouter 将一个或多个受管私有网络从一台路由器上断开
-    Scenario: need to leave router
-      When leave router 
-      Then leave router should get a job ID 
-      Then leave router will be finished
+  # LeaveRouter 将一个或多个受管私有网络从一台路由器上断开
+  Scenario: need to leave router
+    When leave router 
+    Then leave router should get a job ID 
+    Then leave router will be finished
 
-     # DeleteVxnets 删除私有网络
-    Scenario: need to delete vxnets 
-      When delete vxnets 
-      Then delete vxnets should be successfull
+  # DeleteVxnets 删除私有网络
+  Scenario: need to delete vxnets 
+    When delete vxnets 
+    Then delete vxnets should be successfull
 
-    # DeleteRouters 删除一台或多台路由器
-    Scenario: need to delete routers 
-      When delete routers 
-      Then delete routers should get a job ID 
-      Then delete routers will be finished 
+  # DeleteRouters 删除一台或多台路由器
+  Scenario: need to delete routers 
+    When delete routers 
+    Then delete routers should get a job ID 
+    Then delete routers will be finished 
 
-    # 销毁为私有网络新建的主机
-    Scenario: remove vxnet instance
-      When remove vxnet instances
-      Then remove vxnet instances should get a job ID
+  # 销毁为私有网络新建的主机
+  Scenario: remove vxnet instance
+    When remove vxnet instances
+    Then remove vxnet instances should get a job ID
 
 
-    
+  

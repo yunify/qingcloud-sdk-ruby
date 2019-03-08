@@ -38,4 +38,22 @@ Before("@vxnet") do
   @router_service = @qingcloud_service.router @test_config[:zone]
 end
 
+Before("@eip") do
+  @job_service = @qingcloud_service.job @test_config[:zone]
+  @instance_service = @qingcloud_service.instance @test_config[:zone]
+  @eip_service = @qingcloud_service.eip @test_config[:zone]
+  @vxnet_service = @qingcloud_service.vxnet @test_config[:zone]
+  @router_service = @qingcloud_service.router @test_config[:zone]
+end
 
+Before("@key_pair") do
+  @job_service = @qingcloud_service.job @test_config[:zone]
+  @instance_service = @qingcloud_service.instance @test_config[:zone]
+  @key_pair_service = @qingcloud_service.key_pair @test_config[:zone]
+end
+
+Before("@tag") do
+  @job_service = @qingcloud_service.job @test_config[:zone]
+  @instance_service = @qingcloud_service.instance @test_config[:zone]
+  @tag_service = @qingcloud_service.tag @test_config[:zone]
+end
