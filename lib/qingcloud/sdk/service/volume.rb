@@ -14,7 +14,7 @@
 #  | limitations under the License.
 #  +-------------------------------------------------------------------------
 
-require 'active_support/core_ext/hash/keys'
+require "active_support/core_ext/hash/keys"
 
 module QingCloud
   module SDK
@@ -22,20 +22,20 @@ module QingCloud
       attr_accessor :config, :properties
 
       def initialize(config, properties)
-        self.config     = config
+        self.config = config
         self.properties = properties.deep_symbolize_keys
       end
 
       # Documentation URL: https://docs.qingcloud.com/api/volume/attach_volumes.html
-      def attach_volumes(instance: '', volumes: [])
+      def attach_volumes(instance: "", volumes: [])
         input = {
-          config:         config,
-          properties:     properties,
-          api_name:       'AttachVolumes',
-          request_method: 'GET',
+          config: config,
+          properties: properties,
+          api_name: "AttachVolumes",
+          request_method: "GET",
           request_params: {
-            'instance' => instance,
-            'volumes'  => volumes,
+            "instance" => instance,
+            "volumes" => volumes,
           },
         }
 
@@ -45,34 +45,19 @@ module QingCloud
         request.send
       end
 
-      private
-
-      def attach_volumes_input_validate(input)
-        input.deep_stringify_keys!
-
-        unless !input['request_params']['instance'].nil? && !input['request_params']['instance'].to_s.empty?
-          raise ParameterRequiredError.new('instance', 'AttachVolumesInput')
-        end
-
-        unless !input['request_params']['volumes'].nil? && !input['request_params']['volumes'].to_s.empty?
-          raise ParameterRequiredError.new('volumes', 'AttachVolumesInput')
-        end
-      end
-
-      public
-
       # Documentation URL: https://docs.qingcloud.com/api/volume/create_volumes.html
-      def create_volumes(count: nil, size: nil, volume_name: '', volume_type: nil)
+      def create_volumes(count: nil, repl: "", size: nil, volume_name: "", volume_type: nil)
         input = {
-          config:         config,
-          properties:     properties,
-          api_name:       'CreateVolumes',
-          request_method: 'GET',
+          config: config,
+          properties: properties,
+          api_name: "CreateVolumes",
+          request_method: "GET",
           request_params: {
-            'count'       => count,
-            'size'        => size,
-            'volume_name' => volume_name,
-            'volume_type' => volume_type, # volume_type's available values: 0, 1, 2, 3
+            "count" => count,
+            "repl" => repl,
+            "size" => size,
+            "volume_name" => volume_name,
+            "volume_type" => volume_type, # volume_type's available values: 0, 1, 2, 3, 4, 5, 10, 100, 200
           },
         }
 
@@ -82,38 +67,15 @@ module QingCloud
         request.send
       end
 
-      private
-
-      def create_volumes_input_validate(input)
-        input.deep_stringify_keys!
-
-        unless !input['request_params']['size'].nil? && !input['request_params']['size'].to_s.empty?
-          raise ParameterRequiredError.new('size', 'CreateVolumesInput')
-        end
-
-        if input['request_params']['volume_type'] && !input['request_params']['volume_type'].to_s.empty?
-          volume_type_valid_values = %w(0 1 2 3)
-          unless volume_type_valid_values.include? input['request_params']['volume_type'].to_s
-            raise ParameterValueNotAllowedError.new(
-              'volume_type',
-              input['request_params']['volume_type'],
-              volume_type_valid_values,
-            )
-          end
-        end
-      end
-
-      public
-
       # Documentation URL: https://docs.qingcloud.com/api/volume/delete_volumes.html
       def delete_volumes(volumes: [])
         input = {
-          config:         config,
-          properties:     properties,
-          api_name:       'DeleteVolumes',
-          request_method: 'GET',
+          config: config,
+          properties: properties,
+          api_name: "DeleteVolumes",
+          request_method: "GET",
           request_params: {
-            'volumes' => volumes,
+            "volumes" => volumes,
           },
         }
 
@@ -123,34 +85,23 @@ module QingCloud
         request.send
       end
 
-      private
-
-      def delete_volumes_input_validate(input)
-        input.deep_stringify_keys!
-
-        unless !input['request_params']['volumes'].nil? && !input['request_params']['volumes'].to_s.empty?
-          raise ParameterRequiredError.new('volumes', 'DeleteVolumesInput')
-        end
-      end
-
-      public
-
       # Documentation URL: https://docs.qingcloud.com/api/volume/describe_volumes.html
-      def describe_volumes(limit: nil, offset: nil, search_word: '', status: [], tags: [], verbose: nil, volume_type: nil, volumes: [])
+      def describe_volumes(limit: nil, offset: nil, owner: "", search_word: "", status: [], tags: [], verbose: nil, volume_type: nil, volumes: [])
         input = {
-          config:         config,
-          properties:     properties,
-          api_name:       'DescribeVolumes',
-          request_method: 'GET',
+          config: config,
+          properties: properties,
+          api_name: "DescribeVolumes",
+          request_method: "GET",
           request_params: {
-            'limit'       => limit,
-            'offset'      => offset,
-            'search_word' => search_word,
-            'status'      => status,
-            'tags'        => tags,
-            'verbose'     => verbose, # verbose's available values: 0, 1
-            'volume_type' => volume_type, # volume_type's available values: 0, 1, 2, 3
-            'volumes'     => volumes,
+            "limit" => limit,
+            "offset" => offset,
+            "owner" => owner,
+            "search_word" => search_word,
+            "status" => status,
+            "tags" => tags,
+            "verbose" => verbose, # verbose's available values: 0, 1
+            "volume_type" => volume_type, # volume_type's available values: 0, 1, 2, 3, 4, 5, 10, 100, 200
+            "volumes" => volumes,
           },
         }
 
@@ -160,46 +111,16 @@ module QingCloud
         request.send
       end
 
-      private
-
-      def describe_volumes_input_validate(input)
-        input.deep_stringify_keys!
-
-        if input['request_params']['verbose'] && !input['request_params']['verbose'].to_s.empty?
-          verbose_valid_values = %w(0 1)
-          unless verbose_valid_values.include? input['request_params']['verbose'].to_s
-            raise ParameterValueNotAllowedError.new(
-              'verbose',
-              input['request_params']['verbose'],
-              verbose_valid_values,
-            )
-          end
-        end
-
-        if input['request_params']['volume_type'] && !input['request_params']['volume_type'].to_s.empty?
-          volume_type_valid_values = %w(0 1 2 3)
-          unless volume_type_valid_values.include? input['request_params']['volume_type'].to_s
-            raise ParameterValueNotAllowedError.new(
-              'volume_type',
-              input['request_params']['volume_type'],
-              volume_type_valid_values,
-            )
-          end
-        end
-      end
-
-      public
-
       # Documentation URL: https://docs.qingcloud.com/api/volume/detach_volumes.html
-      def detach_volumes(instance: '', volumes: [])
+      def detach_volumes(instance: "", volumes: [])
         input = {
-          config:         config,
-          properties:     properties,
-          api_name:       'DetachVolumes',
-          request_method: 'GET',
+          config: config,
+          properties: properties,
+          api_name: "DetachVolumes",
+          request_method: "GET",
           request_params: {
-            'instance' => instance,
-            'volumes'  => volumes,
+            "instance" => instance,
+            "volumes" => volumes,
           },
         }
 
@@ -209,33 +130,17 @@ module QingCloud
         request.send
       end
 
-      private
-
-      def detach_volumes_input_validate(input)
-        input.deep_stringify_keys!
-
-        unless !input['request_params']['instance'].nil? && !input['request_params']['instance'].to_s.empty?
-          raise ParameterRequiredError.new('instance', 'DetachVolumesInput')
-        end
-
-        unless !input['request_params']['volumes'].nil? && !input['request_params']['volumes'].to_s.empty?
-          raise ParameterRequiredError.new('volumes', 'DetachVolumesInput')
-        end
-      end
-
-      public
-
       # Documentation URL: https://docs.qingcloud.com/api/volume/modify_volume_attributes.html
-      def modify_volume_attributes(description: '', volume: '', volume_name: '')
+      def modify_volume_attributes(description: "", volume: "", volume_name: "")
         input = {
-          config:         config,
-          properties:     properties,
-          api_name:       'ModifyVolumeAttributes',
-          request_method: 'GET',
+          config: config,
+          properties: properties,
+          api_name: "ModifyVolumeAttributes",
+          request_method: "GET",
           request_params: {
-            'description' => description,
-            'volume'      => volume,
-            'volume_name' => volume_name,
+            "description" => description,
+            "volume" => volume,
+            "volume_name" => volume_name,
           },
         }
 
@@ -245,28 +150,16 @@ module QingCloud
         request.send
       end
 
-      private
-
-      def modify_volume_attributes_input_validate(input)
-        input.deep_stringify_keys!
-
-        unless !input['request_params']['volume'].nil? && !input['request_params']['volume'].to_s.empty?
-          raise ParameterRequiredError.new('volume', 'ModifyVolumeAttributesInput')
-        end
-      end
-
-      public
-
       # Documentation URL: https://docs.qingcloud.com/api/volume/resize_volumes.html
       def resize_volumes(size: nil, volumes: [])
         input = {
-          config:         config,
-          properties:     properties,
-          api_name:       'ResizeVolumes',
-          request_method: 'GET',
+          config: config,
+          properties: properties,
+          api_name: "ResizeVolumes",
+          request_method: "GET",
           request_params: {
-            'size'    => size,
-            'volumes' => volumes,
+            "size" => size,
+            "volumes" => volumes,
           },
         }
 
@@ -278,19 +171,102 @@ module QingCloud
 
       private
 
-      def resize_volumes_input_validate(input)
+      def attach_volumes_input_validate(input)
         input.deep_stringify_keys!
 
-        unless !input['request_params']['size'].nil? && !input['request_params']['size'].to_s.empty?
-          raise ParameterRequiredError.new('size', 'ResizeVolumesInput')
+        if input["request_params"]["instance"].to_s.empty?
+          raise ParameterRequiredError.new("instance", "AttachVolumesInput")
         end
 
-        unless !input['request_params']['volumes'].nil? && !input['request_params']['volumes'].to_s.empty?
-          raise ParameterRequiredError.new('volumes', 'ResizeVolumesInput')
+        if input["request_params"]["volumes"].to_s.empty?
+          raise ParameterRequiredError.new("volumes", "AttachVolumesInput")
         end
       end
 
-      public
+      def create_volumes_input_validate(input)
+        input.deep_stringify_keys!
+
+        if input["request_params"]["size"].to_s.empty?
+          raise ParameterRequiredError.new("size", "CreateVolumesInput")
+        end
+
+        unless input["request_params"]["volume_type"].to_s.empty?
+          volume_type_valid_values = ["0", "1", "2", "3", "4", "5", "10", "100", "200"]
+          unless volume_type_valid_values.include? input["request_params"]["volume_type"].to_s
+            raise ParameterValueNotAllowedError.new(
+              "volume_type",
+              input["request_params"]["volume_type"],
+              volume_type_valid_values
+            )
+          end
+        end
+      end
+
+      def delete_volumes_input_validate(input)
+        input.deep_stringify_keys!
+
+        if input["request_params"]["volumes"].to_s.empty?
+          raise ParameterRequiredError.new("volumes", "DeleteVolumesInput")
+        end
+      end
+
+      def describe_volumes_input_validate(input)
+        input.deep_stringify_keys!
+
+        unless input["request_params"]["verbose"].to_s.empty?
+          verbose_valid_values = ["0", "1"]
+          unless verbose_valid_values.include? input["request_params"]["verbose"].to_s
+            raise ParameterValueNotAllowedError.new(
+              "verbose",
+              input["request_params"]["verbose"],
+              verbose_valid_values
+            )
+          end
+        end
+
+        unless input["request_params"]["volume_type"].to_s.empty?
+          volume_type_valid_values = ["0", "1", "2", "3", "4", "5", "10", "100", "200"]
+          unless volume_type_valid_values.include? input["request_params"]["volume_type"].to_s
+            raise ParameterValueNotAllowedError.new(
+              "volume_type",
+              input["request_params"]["volume_type"],
+              volume_type_valid_values
+            )
+          end
+        end
+      end
+
+      def detach_volumes_input_validate(input)
+        input.deep_stringify_keys!
+
+        if input["request_params"]["instance"].to_s.empty?
+          raise ParameterRequiredError.new("instance", "DetachVolumesInput")
+        end
+
+        if input["request_params"]["volumes"].to_s.empty?
+          raise ParameterRequiredError.new("volumes", "DetachVolumesInput")
+        end
+      end
+
+      def modify_volume_attributes_input_validate(input)
+        input.deep_stringify_keys!
+
+        if input["request_params"]["volume"].to_s.empty?
+          raise ParameterRequiredError.new("volume", "ModifyVolumeAttributesInput")
+        end
+      end
+
+      def resize_volumes_input_validate(input)
+        input.deep_stringify_keys!
+
+        if input["request_params"]["size"].to_s.empty?
+          raise ParameterRequiredError.new("size", "ResizeVolumesInput")
+        end
+
+        if input["request_params"]["volumes"].to_s.empty?
+          raise ParameterRequiredError.new("volumes", "ResizeVolumesInput")
+        end
+      end
     end
   end
 end

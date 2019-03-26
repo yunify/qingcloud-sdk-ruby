@@ -14,7 +14,7 @@
 #  | limitations under the License.
 #  +-------------------------------------------------------------------------
 
-require 'active_support/core_ext/hash/keys'
+require "active_support/core_ext/hash/keys"
 
 module QingCloud
   module SDK
@@ -22,23 +22,24 @@ module QingCloud
       attr_accessor :config, :properties
 
       def initialize(config, properties)
-        self.config     = config
+        self.config = config
         self.properties = properties.deep_symbolize_keys
       end
 
       # Documentation URL: https://docs.qingcloud.com/api/job/describe_jobs.html
-      def describe_jobs(jobs: [], limit: nil, offset: nil, status: [], verbose: nil)
+      def describe_jobs(jobs: [], limit: nil, offset: nil, owner: "", status: [], verbose: nil)
         input = {
-          config:         config,
-          properties:     properties,
-          api_name:       'DescribeJobs',
-          request_method: 'GET',
+          config: config,
+          properties: properties,
+          api_name: "DescribeJobs",
+          request_method: "GET",
           request_params: {
-            'jobs'    => jobs,
-            'limit'   => limit,
-            'offset'  => offset,
-            'status'  => status,
-            'verbose' => verbose, # verbose's available values: 0
+            "jobs" => jobs,
+            "limit" => limit,
+            "offset" => offset,
+            "owner" => owner,
+            "status" => status,
+            "verbose" => verbose, # verbose's available values: 0
           },
         }
 
@@ -53,19 +54,17 @@ module QingCloud
       def describe_jobs_input_validate(input)
         input.deep_stringify_keys!
 
-        if input['request_params']['verbose'] && !input['request_params']['verbose'].to_s.empty?
-          verbose_valid_values = ['0']
-          unless verbose_valid_values.include? input['request_params']['verbose'].to_s
+        unless input["request_params"]["verbose"].to_s.empty?
+          verbose_valid_values = ["0"]
+          unless verbose_valid_values.include? input["request_params"]["verbose"].to_s
             raise ParameterValueNotAllowedError.new(
-              'verbose',
-              input['request_params']['verbose'],
-              verbose_valid_values,
+              "verbose",
+              input["request_params"]["verbose"],
+              verbose_valid_values
             )
           end
         end
       end
-
-      public
     end
   end
 end

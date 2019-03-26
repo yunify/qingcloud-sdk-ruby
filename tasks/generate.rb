@@ -23,8 +23,8 @@ end
 task :generate do
   system '
     snips \
-      --service=qingcloud --service-api-version=latest \
-      --spec="./specs" --template="./template" --output="./lib/qingcloud/sdk/service"
+      --file="./api-specs/2013-08-30/swagger/api_v2.0.json" --template="./template" --output="./lib/qingcloud/sdk/service"
   '
-  system 'rubocop -a -c .rubocop.yaml'
+  # system 'rubocop -a -c .rubocop.yaml'
+  system 'rufo ./lib/qingcloud/sdk/service/*'
 end

@@ -18,7 +18,7 @@ require "active_support/core_ext/hash/keys"
 
 module QingCloud
   module SDK
-    class UserDataService
+    class MonitorService
       attr_accessor :config, :properties
 
       def initialize(config, properties)
@@ -26,20 +26,23 @@ module QingCloud
         self.properties = properties.deep_symbolize_keys
       end
 
-      # Documentation URL: https://docs.qingcloud.com/api/userdata/upload_userdata_attachment.html
-      def upload_user_data_attachment(attachment_content: "", attachment_name: "")
+      # Documentation URL: https://docs.qingcloud.com/api/monitor/get_monitor.html
+      def get_monitor(end_time: "", meters: [], resource: "", start_time: "", step: "")
         input = {
           config: config,
           properties: properties,
-          api_name: "UploadUserDataAttachment",
-          request_method: "POST",
+          api_name: "GetMonitor",
+          request_method: "GET",
           request_params: {
-            "attachment_content" => attachment_content,
-            "attachment_name" => attachment_name,
+            "end_time" => end_time,
+            "meters" => meters,
+            "resource" => resource,
+            "start_time" => start_time,
+            "step" => step, # step's available values: 5m, 15m, 2h, 1d
           },
         }
 
-        upload_user_data_attachment_input_validate input
+        get_monitor_input_validate input
 
         request = Request.new input
         request.send
@@ -47,11 +50,18 @@ module QingCloud
 
       private
 
-      def upload_user_data_attachment_input_validate(input)
+      def get_monitor_input_validate(input)
         input.deep_stringify_keys!
 
-        if input["request_params"]["attachment_content"].to_s.empty?
-          raise ParameterRequiredError.new("attachment_content", "UploadUserDataAttachmentInput")
+        unless input["request_params"]["step"].to_s.empty?
+          step_valid_values = ["5m", "15m", "2h", "1d"]
+          unless step_valid_values.include? input["request_params"]["step"].to_s
+            raise ParameterValueNotAllowedError.new(
+              "step",
+              input["request_params"]["step"],
+              step_valid_values
+            )
+          end
         end
       end
     end

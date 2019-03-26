@@ -33,6 +33,17 @@ module QingCloudWorld
   def init_qingcloud_service
     @qingcloud_service = QingCloud::SDK::QingCloudService.new @config
   end
+
+  def invoke_with_retry_times(test_config)
+    retries = 0
+    while retries < test_config[:max_retries]
+      yield
+      retries += 1
+      sleep test_config[:retry_wait_time]
+    end 
+  
+    retries
+  end
 end
 
 World(QingCloudWorld)

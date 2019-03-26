@@ -14,7 +14,7 @@
 #  | limitations under the License.
 #  +-------------------------------------------------------------------------
 
-require 'active_support/core_ext/hash/keys'
+require "active_support/core_ext/hash/keys"
 
 module QingCloud
   module SDK
@@ -22,20 +22,20 @@ module QingCloud
       attr_accessor :config, :properties
 
       def initialize(config, properties)
-        self.config     = config
+        self.config = config
         self.properties = properties.deep_symbolize_keys
       end
 
       # Documentation URL: https://docs.qingcloud.com/api/keypair/attach_key_pairs.html
       def attach_key_pairs(instances: [], keypairs: [])
         input = {
-          config:         config,
-          properties:     properties,
-          api_name:       'AttachKeyPairs',
-          request_method: 'GET',
+          config: config,
+          properties: properties,
+          api_name: "AttachKeyPairs",
+          request_method: "GET",
           request_params: {
-            'instances' => instances,
-            'keypairs'  => keypairs,
+            "instances" => instances,
+            "keypairs" => keypairs,
           },
         }
 
@@ -45,34 +45,18 @@ module QingCloud
         request.send
       end
 
-      private
-
-      def attach_key_pairs_input_validate(input)
-        input.deep_stringify_keys!
-
-        unless !input['request_params']['instances'].nil? && !input['request_params']['instances'].to_s.empty?
-          raise ParameterRequiredError.new('instances', 'AttachKeyPairsInput')
-        end
-
-        unless !input['request_params']['keypairs'].nil? && !input['request_params']['keypairs'].to_s.empty?
-          raise ParameterRequiredError.new('keypairs', 'AttachKeyPairsInput')
-        end
-      end
-
-      public
-
       # Documentation URL: https://docs.qingcloud.com/api/keypair/create_key_pairs.html
-      def create_key_pair(encrypt_method: '', keypair_name: '', mode: '', public_key: '')
+      def create_key_pair(encrypt_method: "", keypair_name: "", mode: "", public_key: "")
         input = {
-          config:         config,
-          properties:     properties,
-          api_name:       'CreateKeyPair',
-          request_method: 'GET',
+          config: config,
+          properties: properties,
+          api_name: "CreateKeyPair",
+          request_method: "GET",
           request_params: {
-            'encrypt_method' => encrypt_method, # encrypt_method's available values: ssh-rsa, ssh-dss
-            'keypair_name'   => keypair_name,
-            'mode'           => mode, # mode's available values: system, user
-            'public_key'     => public_key,
+            "encrypt_method" => encrypt_method, # encrypt_method's available values: ssh-rsa, ssh-dss
+            "keypair_name" => keypair_name,
+            "mode" => mode, # mode's available values: system, user
+            "public_key" => public_key,
           },
         }
 
@@ -82,45 +66,15 @@ module QingCloud
         request.send
       end
 
-      private
-
-      def create_key_pair_input_validate(input)
-        input.deep_stringify_keys!
-
-        if input['request_params']['encrypt_method'] && !input['request_params']['encrypt_method'].to_s.empty?
-          encrypt_method_valid_values = ['ssh-rsa', 'ssh-dss']
-          unless encrypt_method_valid_values.include? input['request_params']['encrypt_method'].to_s
-            raise ParameterValueNotAllowedError.new(
-              'encrypt_method',
-              input['request_params']['encrypt_method'],
-              encrypt_method_valid_values,
-            )
-          end
-        end
-
-        if input['request_params']['mode'] && !input['request_params']['mode'].to_s.empty?
-          mode_valid_values = %w(system user)
-          unless mode_valid_values.include? input['request_params']['mode'].to_s
-            raise ParameterValueNotAllowedError.new(
-              'mode',
-              input['request_params']['mode'],
-              mode_valid_values,
-            )
-          end
-        end
-      end
-
-      public
-
       # Documentation URL: https://docs.qingcloud.com/api/keypair/delete_key_pairs.html
       def delete_key_pairs(keypairs: [])
         input = {
-          config:         config,
-          properties:     properties,
-          api_name:       'DeleteKeyPairs',
-          request_method: 'GET',
+          config: config,
+          properties: properties,
+          api_name: "DeleteKeyPairs",
+          request_method: "GET",
           request_params: {
-            'keypairs' => keypairs,
+            "keypairs" => keypairs,
           },
         }
 
@@ -130,34 +84,23 @@ module QingCloud
         request.send
       end
 
-      private
-
-      def delete_key_pairs_input_validate(input)
-        input.deep_stringify_keys!
-
-        unless !input['request_params']['keypairs'].nil? && !input['request_params']['keypairs'].to_s.empty?
-          raise ParameterRequiredError.new('keypairs', 'DeleteKeyPairsInput')
-        end
-      end
-
-      public
-
       # Documentation URL: https://docs.qingcloud.com/api/keypair/describe_key_pairs.html
-      def describe_key_pairs(encrypt_method: '', instance_id: '', keypairs: [], limit: nil, offset: nil, search_word: '', tags: [], verbose: nil)
+      def describe_key_pairs(encrypt_method: "", instance_id: "", keypairs: [], limit: nil, offset: nil, owner: "", search_word: "", tags: [], verbose: nil)
         input = {
-          config:         config,
-          properties:     properties,
-          api_name:       'DescribeKeyPairs',
-          request_method: 'GET',
+          config: config,
+          properties: properties,
+          api_name: "DescribeKeyPairs",
+          request_method: "GET",
           request_params: {
-            'encrypt_method' => encrypt_method, # encrypt_method's available values: ssh-rsa, ssh-dss
-            'instance_id'    => instance_id,
-            'keypairs'       => keypairs,
-            'limit'          => limit,
-            'offset'         => offset,
-            'search_word'    => search_word,
-            'tags'           => tags,
-            'verbose'        => verbose,
+            "encrypt_method" => encrypt_method, # encrypt_method's available values: ssh-rsa, ssh-dss
+            "instance_id" => instance_id,
+            "keypairs" => keypairs,
+            "limit" => limit,
+            "offset" => offset,
+            "owner" => owner,
+            "search_word" => search_word,
+            "tags" => tags,
+            "verbose" => verbose,
           },
         }
 
@@ -167,35 +110,16 @@ module QingCloud
         request.send
       end
 
-      private
-
-      def describe_key_pairs_input_validate(input)
-        input.deep_stringify_keys!
-
-        if input['request_params']['encrypt_method'] && !input['request_params']['encrypt_method'].to_s.empty?
-          encrypt_method_valid_values = ['ssh-rsa', 'ssh-dss']
-          unless encrypt_method_valid_values.include? input['request_params']['encrypt_method'].to_s
-            raise ParameterValueNotAllowedError.new(
-              'encrypt_method',
-              input['request_params']['encrypt_method'],
-              encrypt_method_valid_values,
-            )
-          end
-        end
-      end
-
-      public
-
       # Documentation URL: https://docs.qingcloud.com/api/keypair/detach_key_pairs.html
       def detach_key_pairs(instances: [], keypairs: [])
         input = {
-          config:         config,
-          properties:     properties,
-          api_name:       'DetachKeyPairs',
-          request_method: 'GET',
+          config: config,
+          properties: properties,
+          api_name: "DetachKeyPairs",
+          request_method: "GET",
           request_params: {
-            'instances' => instances,
-            'keypairs'  => keypairs,
+            "instances" => instances,
+            "keypairs" => keypairs,
           },
         }
 
@@ -205,33 +129,17 @@ module QingCloud
         request.send
       end
 
-      private
-
-      def detach_key_pairs_input_validate(input)
-        input.deep_stringify_keys!
-
-        unless !input['request_params']['instances'].nil? && !input['request_params']['instances'].to_s.empty?
-          raise ParameterRequiredError.new('instances', 'DetachKeyPairsInput')
-        end
-
-        unless !input['request_params']['keypairs'].nil? && !input['request_params']['keypairs'].to_s.empty?
-          raise ParameterRequiredError.new('keypairs', 'DetachKeyPairsInput')
-        end
-      end
-
-      public
-
       # Documentation URL: https://docs.qingcloud.com/api/keypair/modify_key_pair_attributes.html
-      def modify_key_pair_attributes(description: '', keypair: '', keypair_name: '')
+      def modify_key_pair_attributes(description: "", keypair: "", keypair_name: "")
         input = {
-          config:         config,
-          properties:     properties,
-          api_name:       'ModifyKeyPairAttributes',
-          request_method: 'GET',
+          config: config,
+          properties: properties,
+          api_name: "ModifyKeyPairAttributes",
+          request_method: "GET",
           request_params: {
-            'description'  => description,
-            'keypair'      => keypair,
-            'keypair_name' => keypair_name,
+            "description" => description,
+            "keypair" => keypair,
+            "keypair_name" => keypair_name,
           },
         }
 
@@ -243,15 +151,86 @@ module QingCloud
 
       private
 
-      def modify_key_pair_attributes_input_validate(input)
+      def attach_key_pairs_input_validate(input)
         input.deep_stringify_keys!
 
-        unless !input['request_params']['keypair'].nil? && !input['request_params']['keypair'].to_s.empty?
-          raise ParameterRequiredError.new('keypair', 'ModifyKeyPairAttributesInput')
+        if input["request_params"]["instances"].to_s.empty?
+          raise ParameterRequiredError.new("instances", "AttachKeyPairsInput")
+        end
+
+        if input["request_params"]["keypairs"].to_s.empty?
+          raise ParameterRequiredError.new("keypairs", "AttachKeyPairsInput")
         end
       end
 
-      public
+      def create_key_pair_input_validate(input)
+        input.deep_stringify_keys!
+
+        unless input["request_params"]["encrypt_method"].to_s.empty?
+          encrypt_method_valid_values = ["ssh-rsa", "ssh-dss"]
+          unless encrypt_method_valid_values.include? input["request_params"]["encrypt_method"].to_s
+            raise ParameterValueNotAllowedError.new(
+              "encrypt_method",
+              input["request_params"]["encrypt_method"],
+              encrypt_method_valid_values
+            )
+          end
+        end
+
+        unless input["request_params"]["mode"].to_s.empty?
+          mode_valid_values = ["system", "user"]
+          unless mode_valid_values.include? input["request_params"]["mode"].to_s
+            raise ParameterValueNotAllowedError.new(
+              "mode",
+              input["request_params"]["mode"],
+              mode_valid_values
+            )
+          end
+        end
+      end
+
+      def delete_key_pairs_input_validate(input)
+        input.deep_stringify_keys!
+
+        if input["request_params"]["keypairs"].to_s.empty?
+          raise ParameterRequiredError.new("keypairs", "DeleteKeyPairsInput")
+        end
+      end
+
+      def describe_key_pairs_input_validate(input)
+        input.deep_stringify_keys!
+
+        unless input["request_params"]["encrypt_method"].to_s.empty?
+          encrypt_method_valid_values = ["ssh-rsa", "ssh-dss"]
+          unless encrypt_method_valid_values.include? input["request_params"]["encrypt_method"].to_s
+            raise ParameterValueNotAllowedError.new(
+              "encrypt_method",
+              input["request_params"]["encrypt_method"],
+              encrypt_method_valid_values
+            )
+          end
+        end
+      end
+
+      def detach_key_pairs_input_validate(input)
+        input.deep_stringify_keys!
+
+        if input["request_params"]["instances"].to_s.empty?
+          raise ParameterRequiredError.new("instances", "DetachKeyPairsInput")
+        end
+
+        if input["request_params"]["keypairs"].to_s.empty?
+          raise ParameterRequiredError.new("keypairs", "DetachKeyPairsInput")
+        end
+      end
+
+      def modify_key_pair_attributes_input_validate(input)
+        input.deep_stringify_keys!
+
+        if input["request_params"]["keypair"].to_s.empty?
+          raise ParameterRequiredError.new("keypair", "ModifyKeyPairAttributesInput")
+        end
+      end
     end
   end
 end
