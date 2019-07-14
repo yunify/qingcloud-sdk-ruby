@@ -85,7 +85,7 @@ module QingCloud
       end
 
       # Documentation URL: https://docs.qingcloud.com/api/keypair/describe_key_pairs.html
-      def describe_key_pairs(encrypt_method: "", instance_id: "", keypairs: [], limit: nil, offset: nil, owner: "", search_word: "", tags: [], verbose: nil)
+      def describe_key_pairs(encrypt_method: "", instance_id: "", keypairs: [], limit: nil, offset: nil, owner: "", project_id: "", search_word: "", tags: [], verbose: nil)
         input = {
           config: config,
           properties: properties,
@@ -98,6 +98,7 @@ module QingCloud
             "limit" => limit,
             "offset" => offset,
             "owner" => owner,
+            "project_id" => project_id,
             "search_word" => search_word,
             "tags" => tags,
             "verbose" => verbose,

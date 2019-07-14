@@ -121,7 +121,7 @@ module QingCloud
       end
 
       # Documentation URL: https://docs.qingcloud.com/api/lb/create_loadbalancer.html
-      def create_load_balancer(eips: [], http_header_size: nil, loadbalancer_name: "", loadbalancer_type: nil, node_count: nil, private_ip: "", security_group: "", vxnet: "")
+      def create_load_balancer(eips: [], http_header_size: nil, loadbalancer_name: "", loadbalancer_type: nil, node_count: nil, private_ip: "", project_id: "", security_group: "", vxnet: "")
         input = {
           config: config,
           properties: properties,
@@ -134,6 +134,7 @@ module QingCloud
             "loadbalancer_type" => loadbalancer_type, # loadbalancer_type's available values: 0, 1, 2, 3, 4, 5
             "node_count" => node_count,
             "private_ip" => private_ip,
+            "project_id" => project_id,
             "security_group" => security_group,
             "vxnet" => vxnet,
           },

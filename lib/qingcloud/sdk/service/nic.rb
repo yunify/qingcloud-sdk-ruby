@@ -85,7 +85,7 @@ module QingCloud
       end
 
       # Documentation URL: https://docs.qingcloud.com/api/nic/describe_nics.html
-      def describe_nics(instances: [], limit: nil, nic_name: "", nics: [], offset: nil, owner: "", status: "", vxnet_type: nil, vxnets: [])
+      def describe_nics(instances: [], limit: nil, nic_name: "", nics: [], offset: nil, owner: "", project_id: "", status: "", vxnet_type: [], vxnets: [])
         input = {
           config: config,
           properties: properties,
@@ -98,8 +98,9 @@ module QingCloud
             "nics" => nics,
             "offset" => offset,
             "owner" => owner,
+            "project_id" => project_id,
             "status" => status, # status's available values: available, in-use
-            "vxnet_type" => vxnet_type, # vxnet_type's available values: 0, 1
+            "vxnet_type" => vxnet_type,
             "vxnets" => vxnets,
           },
         }
@@ -189,17 +190,6 @@ module QingCloud
               "status",
               input["request_params"]["status"],
               status_valid_values
-            )
-          end
-        end
-
-        unless input["request_params"]["vxnet_type"].to_s.empty?
-          vxnet_type_valid_values = ["0", "1"]
-          unless vxnet_type_valid_values.include? input["request_params"]["vxnet_type"].to_s
-            raise ParameterValueNotAllowedError.new(
-              "vxnet_type",
-              input["request_params"]["vxnet_type"],
-              vxnet_type_valid_values
             )
           end
         end

@@ -63,7 +63,7 @@ module QingCloud
       end
 
       # Documentation URL: https://docs.qingcloud.com/api/instance/describe_instances.html
-      def describe_instances(image_id: [], instance_class: nil, instance_type: [], instances: [], is_cluster_node: nil, limit: nil, offset: nil, owner: "", search_word: "", status: [], tags: [], verbose: nil)
+      def describe_instances(image_id: [], instance_class: nil, instance_type: [], instances: [], is_cluster_node: nil, limit: nil, offset: nil, owner: "", project_id: "", search_word: "", status: [], tags: [], verbose: nil)
         input = {
           config: config,
           properties: properties,
@@ -78,6 +78,7 @@ module QingCloud
             "limit" => limit,
             "offset" => offset,
             "owner" => owner,
+            "project_id" => project_id,
             "search_word" => search_word,
             "status" => status,
             "tags" => tags,

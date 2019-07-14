@@ -84,7 +84,7 @@ module QingCloud
       end
 
       # Documentation URL: https://docs.qingcloud.com/api/image/describe_images.html
-      def describe_images(images: [], limit: nil, offset: nil, os_family: "", owner: "", processor_type: "", provider: "", search_word: "", status: [], verbose: nil, visibility: "")
+      def describe_images(images: [], limit: nil, offset: nil, os_family: "", owner: "", processor_type: "", project_id: "", provider: "", search_word: "", status: [], verbose: nil, visibility: "")
         input = {
           config: config,
           properties: properties,
@@ -97,6 +97,7 @@ module QingCloud
             "os_family" => os_family,
             "owner" => owner,
             "processor_type" => processor_type, # processor_type's available values: 64bit, 32bit
+            "project_id" => project_id,
             "provider" => provider, # provider's available values: system, self
             "search_word" => search_word,
             "status" => status,

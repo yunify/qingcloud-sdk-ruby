@@ -47,6 +47,13 @@ module QingCloud
         request.send
       end
 
+      def accesskey(zone)
+        properties = {
+          "zone" => zone,
+        }
+        AccesskeyService.new(self.config, self.properties.merge(properties))
+      end
+
       def app(zone)
         properties = {
           "zone" => zone,
@@ -141,6 +148,13 @@ module QingCloud
           "zone" => zone,
         }
         NicService.new(self.config, self.properties.merge(properties))
+      end
+
+      def project(zone)
+        properties = {
+          "zone" => zone,
+        }
+        ProjectService.new(self.config, self.properties.merge(properties))
       end
 
       def rdb(zone)
