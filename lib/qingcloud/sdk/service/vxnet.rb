@@ -89,7 +89,7 @@ module QingCloud
       end
 
       # Documentation URL: https://docs.qingcloud.com/api/vxnet/describe_vxnets.html
-      def describe_vxnets(limit: nil, offset: nil, owner: "", search_word: "", tags: [], verbose: nil, vxnet_type: nil, vxnets: [])
+      def describe_vxnets(limit: nil, offset: nil, owner: "", project_id: "", search_word: "", tags: [], verbose: nil, vxnet_type: nil, vxnets: [])
         input = {
           config: config,
           properties: properties,
@@ -99,6 +99,7 @@ module QingCloud
             "limit" => limit,
             "offset" => offset,
             "owner" => owner,
+            "project_id" => project_id,
             "search_word" => search_word,
             "tags" => tags,
             "verbose" => verbose, # verbose's available values: 0, 1

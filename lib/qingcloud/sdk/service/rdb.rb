@@ -201,7 +201,7 @@ module QingCloud
       end
 
       # Documentation URL: https://docs.qingcloud.com/api/rdb/describe_rdbs.html
-      def describe_rdbs(limit: nil, offset: nil, rdb_engine: "", rdb_name: "", rdbs: [], search_word: "", status: [], tags: [], verbose: nil)
+      def describe_rdbs(limit: nil, offset: nil, project_id: "", rdb_engine: "", rdb_name: "", rdbs: [], search_word: "", status: [], tags: [], verbose: nil)
         input = {
           config: config,
           properties: properties,
@@ -210,6 +210,7 @@ module QingCloud
           request_params: {
             "limit" => limit,
             "offset" => offset,
+            "project_id" => project_id,
             "rdb_engine" => rdb_engine,
             "rdb_name" => rdb_name,
             "rdbs" => rdbs,

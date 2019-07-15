@@ -122,7 +122,7 @@ module QingCloud
       end
 
       # Documentation URL: https://docs.qingcloud.com/api/snapshot/describe_snapshots.html
-      def describe_snapshots(limit: nil, offset: nil, owner: "", resource_id: "", search_word: "", snapshot_time: "", snapshot_type: nil, snapshots: [], status: [], tags: [], verbose: nil)
+      def describe_snapshots(limit: nil, offset: nil, owner: "", project_id: "", resource_id: "", search_word: "", snapshot_time: "", snapshot_type: nil, snapshots: [], status: [], tags: [], verbose: nil)
         input = {
           config: config,
           properties: properties,
@@ -132,6 +132,7 @@ module QingCloud
             "limit" => limit,
             "offset" => offset,
             "owner" => owner,
+            "project_id" => project_id,
             "resource_id" => resource_id,
             "search_word" => search_word,
             "snapshot_time" => snapshot_time,

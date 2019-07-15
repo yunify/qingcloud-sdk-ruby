@@ -194,7 +194,7 @@ module QingCloud
       end
 
       # Documentation URL: https://docs.qingcloud.com/api/sg/describe_security_group_ipsets.html
-      def describe_security_group_ip_sets(ipset_type: nil, limit: nil, offset: nil, owner: "", security_group_ipset_name: "", security_group_ipsets: [], tags: [], verbose: nil)
+      def describe_security_group_ip_sets(ipset_type: nil, limit: nil, offset: nil, owner: "", project_id: "", security_group_ipset_name: "", security_group_ipsets: [], tags: [], verbose: nil)
         input = {
           config: config,
           properties: properties,
@@ -205,6 +205,7 @@ module QingCloud
             "limit" => limit,
             "offset" => offset,
             "owner" => owner,
+            "project_id" => project_id,
             "security_group_ipset_name" => security_group_ipset_name,
             "security_group_ipsets" => security_group_ipsets,
             "tags" => tags,
@@ -242,7 +243,7 @@ module QingCloud
       end
 
       # Documentation URL: https://docs.qingcloud.com/api/sg/describe_security_group_snapshots.html
-      def describe_security_group_snapshots(limit: nil, offset: nil, reverse: nil, security_group: "", security_group_snapshots: [])
+      def describe_security_group_snapshots(limit: nil, offset: nil, project_id: "", reverse: nil, security_group: "", security_group_snapshots: [])
         input = {
           config: config,
           properties: properties,
@@ -251,6 +252,7 @@ module QingCloud
           request_params: {
             "limit" => limit,
             "offset" => offset,
+            "project_id" => project_id,
             "reverse" => reverse,
             "security_group" => security_group,
             "security_group_snapshots" => security_group_snapshots,
@@ -264,7 +266,7 @@ module QingCloud
       end
 
       # Documentation URL: https://docs.qingcloud.com/api/sg/describe_security_groups.html
-      def describe_security_groups(limit: nil, offset: nil, owner: "", search_word: "", security_groups: [], tags: [], verbose: nil)
+      def describe_security_groups(limit: nil, offset: nil, owner: "", project_id: "", search_word: "", security_groups: [], tags: [], verbose: nil)
         input = {
           config: config,
           properties: properties,
@@ -274,6 +276,7 @@ module QingCloud
             "limit" => limit,
             "offset" => offset,
             "owner" => owner,
+            "project_id" => project_id,
             "search_word" => search_word,
             "security_groups" => security_groups,
             "tags" => tags,

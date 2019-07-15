@@ -283,7 +283,7 @@ module QingCloud
       end
 
       # Documentation URL: https://docs.qingcloud.com/api/cache/describe_caches.html
-      def describe_caches(cache_type: [], caches: [], limit: nil, offset: nil, search_word: "", status: [], tags: [], verbose: nil)
+      def describe_caches(cache_type: [], caches: [], limit: nil, offset: nil, project_id: "", search_word: "", status: [], tags: [], verbose: nil)
         input = {
           config: config,
           properties: properties,
@@ -294,6 +294,7 @@ module QingCloud
             "caches" => caches,
             "limit" => limit,
             "offset" => offset,
+            "project_id" => project_id,
             "search_word" => search_word,
             "status" => status,
             "tags" => tags,

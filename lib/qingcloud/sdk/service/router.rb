@@ -211,7 +211,7 @@ module QingCloud
       end
 
       # Documentation URL: https://docs.qingcloud.com/api/router/describe_routers.html
-      def describe_routers(limit: nil, offset: nil, owner: "", routers: [], search_word: "", status: [], tags: [], verbose: nil, vxnet: "")
+      def describe_routers(limit: nil, offset: nil, owner: "", project_id: "", routers: [], search_word: "", status: [], tags: [], verbose: nil, vxnet: "")
         input = {
           config: config,
           properties: properties,
@@ -221,6 +221,7 @@ module QingCloud
             "limit" => limit,
             "offset" => offset,
             "owner" => owner,
+            "project_id" => project_id,
             "routers" => routers,
             "search_word" => search_word,
             "status" => status,

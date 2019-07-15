@@ -179,7 +179,7 @@ module QingCloud
       end
 
       # Documentation URL: https://docs.qingcloud.com/api/mongo/describe_mongos.html
-      def describe_mongos(limit: nil, mongo_name: "", mongos: [], offset: nil, status: [], tags: [], verbose: nil)
+      def describe_mongos(limit: nil, mongo_name: "", mongos: [], offset: nil, project_id: "", status: [], tags: [], verbose: nil)
         input = {
           config: config,
           properties: properties,
@@ -190,6 +190,7 @@ module QingCloud
             "mongo_name" => mongo_name,
             "mongos" => mongos,
             "offset" => offset,
+            "project_id" => project_id,
             "status" => status,
             "tags" => tags,
             "verbose" => verbose,

@@ -45,6 +45,29 @@ module QingCloud
         request.send
       end
 
+      # Documentation URL: https://docs.qingcloud.com
+      def clone_volumes(count: nil, sub_zones: "", volume: "", volume_name: "", volume_type: nil, zone: "")
+        input = {
+          config: config,
+          properties: properties,
+          api_name: "CloneVolumes",
+          request_method: "GET",
+          request_params: {
+            "count" => count,
+            "sub_zones" => sub_zones,
+            "volume" => volume,
+            "volume_name" => volume_name,
+            "volume_type" => volume_type, # volume_type's available values: 0, 1, 2, 3, 4, 5, 10, 100, 200
+            "zone" => zone,
+          },
+        }
+
+        clone_volumes_input_validate input
+
+        request = Request.new input
+        request.send
+      end
+
       # Documentation URL: https://docs.qingcloud.com/api/volume/create_volumes.html
       def create_volumes(count: nil, repl: "", size: nil, volume_name: "", volume_type: nil)
         input = {
@@ -86,7 +109,7 @@ module QingCloud
       end
 
       # Documentation URL: https://docs.qingcloud.com/api/volume/describe_volumes.html
-      def describe_volumes(limit: nil, offset: nil, owner: "", search_word: "", status: [], tags: [], verbose: nil, volume_type: nil, volumes: [])
+      def describe_volumes(limit: nil, offset: nil, owner: "", project_id: "", search_word: "", status: [], tags: [], verbose: nil, volume_type: nil, volumes: [])
         input = {
           config: config,
           properties: properties,
@@ -96,6 +119,7 @@ module QingCloud
             "limit" => limit,
             "offset" => offset,
             "owner" => owner,
+            "project_id" => project_id,
             "search_word" => search_word,
             "status" => status,
             "tags" => tags,
@@ -180,6 +204,25 @@ module QingCloud
 
         if input["request_params"]["volumes"].to_s.empty?
           raise ParameterRequiredError.new("volumes", "AttachVolumesInput")
+        end
+      end
+
+      def clone_volumes_input_validate(input)
+        input.deep_stringify_keys!
+
+        if input["request_params"]["volume"].to_s.empty?
+          raise ParameterRequiredError.new("volume", "CloneVolumesInput")
+        end
+
+        unless input["request_params"]["volume_type"].to_s.empty?
+          volume_type_valid_values = ["0", "1", "2", "3", "4", "5", "10", "100", "200"]
+          unless volume_type_valid_values.include? input["request_params"]["volume_type"].to_s
+            raise ParameterValueNotAllowedError.new(
+              "volume_type",
+              input["request_params"]["volume_type"],
+              volume_type_valid_values
+            )
+          end
         end
       end
 
