@@ -45,6 +45,25 @@ module QingCloud
         request.send
       end
 
+      # Documentation URL: https://docs.qingcloud.com/product/api/action/misc
+      def get_resource_limit(volume_type: nil, zone: "")
+        input = {
+          config: config,
+          properties: properties,
+          api_name: "GetResourceLimit",
+          request_method: "GET",
+          request_params: {
+            "volume_type" => volume_type,
+            "zone" => zone,
+          },
+        }
+
+        get_resource_limit_input_validate input
+
+        request = Request.new input
+        request.send
+      end
+
       private
 
       def get_quota_left_input_validate(input)
@@ -52,6 +71,14 @@ module QingCloud
 
         if input["request_params"]["zone"].to_s.empty?
           raise ParameterRequiredError.new("zone", "GetQuotaLeftInput")
+        end
+      end
+
+      def get_resource_limit_input_validate(input)
+        input.deep_stringify_keys!
+
+        if input["request_params"]["zone"].to_s.empty?
+          raise ParameterRequiredError.new("zone", "GetResourceLimitInput")
         end
       end
     end

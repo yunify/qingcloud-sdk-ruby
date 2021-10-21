@@ -64,6 +64,24 @@ module QingCloud
         request.send
       end
 
+      # Documentation URL: https://docs.qingcloud.com/api/sg/apply_security_group_ipsets.html
+      def apply_security_group_ip_sets(security_group_ipsets: [])
+        input = {
+          config: config,
+          properties: properties,
+          api_name: "ApplySecurityGroupIPSets",
+          request_method: "GET",
+          request_params: {
+            "security_group_ipsets" => security_group_ipsets,
+          },
+        }
+
+        apply_security_group_ip_sets_input_validate input
+
+        request = Request.new input
+        request.send
+      end
+
       # Documentation URL: https://docs.qingcloud.com/api/sg/create_security_group.html
       def create_security_group(security_group_name: "")
         input = {
@@ -420,6 +438,14 @@ module QingCloud
 
         if input["request_params"]["security_group"].to_s.empty?
           raise ParameterRequiredError.new("security_group", "ApplySecurityGroupInput")
+        end
+      end
+
+      def apply_security_group_ip_sets_input_validate(input)
+        input.deep_stringify_keys!
+
+        if input["request_params"]["security_group_ipsets"].to_s.empty?
+          raise ParameterRequiredError.new("security_group_ipsets", "ApplySecurityGroupIPSetsInput")
         end
       end
 

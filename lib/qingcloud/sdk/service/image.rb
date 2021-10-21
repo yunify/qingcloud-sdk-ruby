@@ -84,7 +84,7 @@ module QingCloud
       end
 
       # Documentation URL: https://docs.qingcloud.com/api/image/describe_images.html
-      def describe_images(images: [], limit: nil, offset: nil, os_family: "", owner: "", processor_type: "", project_id: "", provider: "", search_word: "", status: [], verbose: nil, visibility: "")
+      def describe_images(images: [], limit: nil, offset: nil, os_family: "", owner: "", processor_type: "", project_id: "", provider: "", search_word: "", status: [], tags: [], verbose: nil, visibility: "")
         input = {
           config: config,
           properties: properties,
@@ -101,6 +101,7 @@ module QingCloud
             "provider" => provider, # provider's available values: system, self
             "search_word" => search_word,
             "status" => status,
+            "tags" => tags,
             "verbose" => verbose, # verbose's available values: 0
             "visibility" => visibility, # visibility's available values: public, private
           },
