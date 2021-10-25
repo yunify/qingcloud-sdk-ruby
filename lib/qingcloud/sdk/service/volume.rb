@@ -57,7 +57,7 @@ module QingCloud
             "sub_zones" => sub_zones,
             "volume" => volume,
             "volume_name" => volume_name,
-            "volume_type" => volume_type, # volume_type's available values: 0, 1, 2, 3, 4, 5, 10, 100, 200
+            "volume_type" => volume_type, # volume_type's available values: 0, 1, 2, 3, 4, 5, 6, 10, 100, 200
             "zone" => zone,
           },
         }
@@ -69,7 +69,7 @@ module QingCloud
       end
 
       # Documentation URL: https://docs.qingcloud.com/api/volume/create_volumes.html
-      def create_volumes(count: nil, repl: "", size: nil, volume_name: "", volume_type: nil)
+      def create_volumes(count: nil, repl: "", size: nil, volume_name: "", volume_type: nil, zone: "")
         input = {
           config: config,
           properties: properties,
@@ -80,7 +80,8 @@ module QingCloud
             "repl" => repl,
             "size" => size,
             "volume_name" => volume_name,
-            "volume_type" => volume_type, # volume_type's available values: 0, 1, 2, 3, 4, 5, 10, 100, 200
+            "volume_type" => volume_type, # volume_type's available values: 0, 1, 2, 3, 4, 5, 6, 10, 100, 200
+            "zone" => zone,
           },
         }
 
@@ -109,7 +110,7 @@ module QingCloud
       end
 
       # Documentation URL: https://docs.qingcloud.com/api/volume/describe_volumes.html
-      def describe_volumes(limit: nil, offset: nil, owner: "", project_id: "", search_word: "", status: [], tags: [], verbose: nil, volume_type: nil, volumes: [])
+      def describe_volumes(limit: nil, offset: nil, owner: "", project_id: "", search_word: "", status: [], tags: [], verbose: nil, volume_type: nil, volumes: [], zone: "")
         input = {
           config: config,
           properties: properties,
@@ -124,8 +125,9 @@ module QingCloud
             "status" => status,
             "tags" => tags,
             "verbose" => verbose, # verbose's available values: 0, 1
-            "volume_type" => volume_type, # volume_type's available values: 0, 1, 2, 3, 4, 5, 10, 100, 200
+            "volume_type" => volume_type, # volume_type's available values: 0, 1, 2, 3, 4, 5, 6, 10, 100, 200
             "volumes" => volumes,
+            "zone" => zone,
           },
         }
 
@@ -215,7 +217,7 @@ module QingCloud
         end
 
         unless input["request_params"]["volume_type"].to_s.empty?
-          volume_type_valid_values = ["0", "1", "2", "3", "4", "5", "10", "100", "200"]
+          volume_type_valid_values = ["0", "1", "2", "3", "4", "5", "6", "10", "100", "200"]
           unless volume_type_valid_values.include? input["request_params"]["volume_type"].to_s
             raise ParameterValueNotAllowedError.new(
               "volume_type",
@@ -234,7 +236,7 @@ module QingCloud
         end
 
         unless input["request_params"]["volume_type"].to_s.empty?
-          volume_type_valid_values = ["0", "1", "2", "3", "4", "5", "10", "100", "200"]
+          volume_type_valid_values = ["0", "1", "2", "3", "4", "5", "6", "10", "100", "200"]
           unless volume_type_valid_values.include? input["request_params"]["volume_type"].to_s
             raise ParameterValueNotAllowedError.new(
               "volume_type",
@@ -268,7 +270,7 @@ module QingCloud
         end
 
         unless input["request_params"]["volume_type"].to_s.empty?
-          volume_type_valid_values = ["0", "1", "2", "3", "4", "5", "10", "100", "200"]
+          volume_type_valid_values = ["0", "1", "2", "3", "4", "5", "6", "10", "100", "200"]
           unless volume_type_valid_values.include? input["request_params"]["volume_type"].to_s
             raise ParameterValueNotAllowedError.new(
               "volume_type",

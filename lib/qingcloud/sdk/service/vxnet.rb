@@ -89,7 +89,7 @@ module QingCloud
       end
 
       # Documentation URL: https://docs.qingcloud.com/api/vxnet/describe_vxnets.html
-      def describe_vxnets(limit: nil, offset: nil, owner: "", project_id: "", search_word: "", tags: [], verbose: nil, vxnet_type: nil, vxnets: [])
+      def describe_vxnets(limit: nil, offset: nil, owner: "", project_id: "", search_word: "", tags: [], verbose: nil, vxnet_type: nil, vxnets: [], zone: "")
         input = {
           config: config,
           properties: properties,
@@ -103,8 +103,9 @@ module QingCloud
             "search_word" => search_word,
             "tags" => tags,
             "verbose" => verbose, # verbose's available values: 0, 1
-            "vxnet_type" => vxnet_type, # vxnet_type's available values: 0, 1
+            "vxnet_type" => vxnet_type, # vxnet_type's available values: 0, 1, 2
             "vxnets" => vxnets,
+            "zone" => zone,
           },
         }
 
@@ -224,7 +225,7 @@ module QingCloud
         end
 
         unless input["request_params"]["vxnet_type"].to_s.empty?
-          vxnet_type_valid_values = ["0", "1"]
+          vxnet_type_valid_values = ["0", "1", "2"]
           unless vxnet_type_valid_values.include? input["request_params"]["vxnet_type"].to_s
             raise ParameterValueNotAllowedError.new(
               "vxnet_type",

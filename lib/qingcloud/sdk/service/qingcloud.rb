@@ -150,6 +150,13 @@ module QingCloud
         NicService.new(self.config, self.properties.merge(properties))
       end
 
+      def notification(zone)
+        properties = {
+          "zone" => zone,
+        }
+        NotificationService.new(self.config, self.properties.merge(properties))
+      end
+
       def project(zone)
         properties = {
           "zone" => zone,

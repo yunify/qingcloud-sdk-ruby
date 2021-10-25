@@ -85,7 +85,7 @@ module QingCloud
       end
 
       # Documentation URL: https://docs.qingcloud.com/api/snapshot/create_volume_from_snapshot.html
-      def create_volume_from_snapshot(snapshot: "", volume_name: "")
+      def create_volume_from_snapshot(snapshot: "", volume_name: "", zone: "")
         input = {
           config: config,
           properties: properties,
@@ -94,6 +94,7 @@ module QingCloud
           request_params: {
             "snapshot" => snapshot,
             "volume_name" => volume_name,
+            "zone" => zone,
           },
         }
 
